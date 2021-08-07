@@ -158,10 +158,12 @@
                 </ul>
             </div>
         </div>
+        <Live />
     </div>
 </template>
 
 <script>
+import Live from "@/components/Live"
 export default {
     name: "Main",
     data() {
@@ -234,6 +236,9 @@ export default {
             arr[number].active = true;
         },
     },
+    components: {
+        Live
+    }
 };
 </script>
 

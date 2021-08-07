@@ -28,6 +28,10 @@
                 <span>直播 Id：</span>
                 <input type="text" v-model="info.live" />
             </div>
+            <div class="input">
+                <span>Cookie：</span>
+                <input type="text" v-model="info.cookie" />
+            </div>
         </div>
         <div class="bottom">
             <div class="cancel" @click="cancel">取消</div>
