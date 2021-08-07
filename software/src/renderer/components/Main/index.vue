@@ -9,7 +9,7 @@
                     >{{ status ? "+" : "" }}{{ difference }}</span
                 >
             </div>
-            <div class="list">
+            <!-- <div class="list">
                 <div class="item">
                     <div class="title">{{ videos.title }}</div>
                     <div class="count">
@@ -156,7 +156,7 @@
                         <span>{{ videos.share }}</span>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </div>
         <Live />
     </div>
@@ -182,11 +182,11 @@ export default {
         };
     },
     mounted() {
-        this.getVideo();
+        // this.getVideo();
         this.getInfo();
         setInterval(() => {
             this.getInfo();
-            this.changeVideo();
+            // this.changeVideo();
         }, 5000);
     },
     methods: {
@@ -198,6 +198,7 @@ export default {
                 .then((res) => {
                     this.info.nickname = res.data.data.nickname;
                     this.info.follower = res.data.data.follower;
+
                     if (this.info.follower != this.follower) {
                         this.top = true;
                         this.difference = this.info.follower - this.follower;
@@ -207,9 +208,11 @@ export default {
                             this.status = false;
                         }
                         this.follower = this.info.follower;
-                    } else {
-                        this.top = false;
                     }
+                    setTimeout(() => {
+                        this.top = false;
+                    }, 1000);
+                    console.log(this.info.follower, this.follower, this.top);
                 });
         },
         getVideo() {
@@ -275,7 +278,7 @@ export default {
 }
 
 .content .info .top {
-    animation: top 1.5s;
+    animation: top 1s;
 }
 
 .content > div {

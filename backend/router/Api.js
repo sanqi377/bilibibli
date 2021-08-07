@@ -32,11 +32,13 @@ router.post("/user/getVideo", (req, resp) => {
     let mid = req.body.mid;
     let info = [];
     let bvid = [];
+    console.log(mid)
     const getInfoList = (info, id, title) => {
         return new Promise(resolve =>
             request('https://api.bilibili.com/x/web-interface/archive/stat?bvid=' + id, (err, rep, body) => {
-                let bodys = JSON.parse(body).data;
-                bodys.title = title
+                let bodys = JSON.parse(body);
+                console.log(bodys)
+                    // bodys.data.title = title
                 info.push(bodys)
                 resolve(info)
             })
@@ -86,6 +88,7 @@ router.post("/live/sendBarrage", (req, res) => {
     let body = req.body;
     request.post({ url: 'https://api.live.bilibili.com/msg/send', form: body, headers: { cookie: body.cookie } }, (err, rep, body) => {
         body = JSON.parse(body);
+        console.log(body)
         res.send({ data: "发送成功" });
     })
 });
