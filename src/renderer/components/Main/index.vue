@@ -6,9 +6,9 @@
                 <img src="./../../assets/img/blibli.png" alt="" />
                 <span class="num">{{ follower.follower }}</span>
             </div>
-            <div class="list">
-                <div class="item">
-                    <div class="title">这是一个测试标题</div>
+            <div class="list" v-for="item in video" :key="item.aid">
+                <div class="item" v-show="item.active">
+                    <div class="title">{{ item.title }}</div>
                     <div class="count">
                         <svg
                             t="1628259457007"
@@ -29,10 +29,10 @@
                                 p-id="2690"
                             ></path>
                         </svg>
-                        <span>15456</span>
+                        <span>{{ item.view }}</span>
                     </div>
                 </div>
-                <ul class="data">
+                <ul class="data" v-show="item.active">
                     <li>
                         <span class="icon">
                             <svg
@@ -50,7 +50,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>124</span>
+                        <span>{{ item.like }}</span>
                     </li>
                     <li>
                         <span class="icon">
@@ -69,7 +69,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span> 145 </span>
+                        <span> {{ item.coin }} </span>
                     </li>
                     <li>
                         <span class="icon">
@@ -88,7 +88,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>4856</span>
+                        <span>{{ item.favorite }}</span>
                     </li>
                     <li>
                         <span class="icon">
@@ -107,7 +107,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>154894</span>
+                        <span>{{ item.reply }}</span>
                     </li>
                     <li>
                         <span class="icon">
@@ -126,7 +126,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>5164894</span>
+                        <span>{{ item.view }}</span>
                     </li>
                     <li>
                         <span class="icon">
@@ -150,7 +150,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>1544</span>
+                        <span>{{ item.share }}</span>
                     </li>
                 </ul>
             </div>
@@ -165,20 +165,52 @@ export default {
         return {
             info: {},
             follower: {},
+            video: {},
         };
     },
     mounted() {
+        this.getVideo();
         this.getInfo();
+        setInterval(() => {
+            this.getInfo();
+            this.changeVideo();
+        }, 5000);
     },
     methods: {
         getInfo() {
             this.$http
-                .get("https://api.qblog.cc/index/external/blibli")
+                .post("https://api.qblog.cc/index/external/blibli", {
+                    mid: this.$store.state.setting.user,
+                })
                 .then((res) => {
                     this.info = res.data.data.userInfo;
                     this.follower = res.data.data.follower;
-                    console.log(res.data.data);
                 });
+        },
+        getVideo() {
+            this.$http
+                .post("https://api.qblog.cc/index/external/blibliVideo")
+                .then((res) => {
+                    this.video = res.data.data;
+                    this.video.forEach((item) => {
+                        item.active = false;
+                    });
+                    this.video[this.video.length - 1].active = true;
+                });
+        },
+        changeVideo() {
+            var arr = this.video;
+            var number;
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i].active) {
+                    number = i - 1;
+                }
+                arr[i].active = false;
+            }
+            if (number < 0) {
+                number = arr.length - 1;
+            }
+            arr[number].active = true;
         },
     },
 };
@@ -186,7 +218,7 @@ export default {
 
 <style scoped>
 #main {
-    margin: 0 65px;
+    padding: 0 65px;
 }
 
 .title {
