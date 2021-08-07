@@ -4,7 +4,10 @@
         <div class="content">
             <div class="info">
                 <img src="./../../assets/img/blibli.png" alt="" />
-                <span class="num">{{ follower.follower }}</span>
+                <span class="num">{{ follower }}</span>
+                <span :class="top ? 'addNum top' : 'addNum'"
+                    >{{ status ? "+" : "" }}{{ difference }}</span
+                >
             </div>
             <div class="list" v-for="item in video" :key="item.aid">
                 <div class="item" v-show="item.active">
@@ -163,9 +166,14 @@ export default {
     name: "Main",
     data() {
         return {
-            info: {},
-            follower: {},
+            info: {
+                follower: {},
+            },
+            follower: 0,
             video: {},
+            difference: 0,
+            status: true,
+            top: false,
         };
     },
     mounted() {
@@ -184,7 +192,20 @@ export default {
                 })
                 .then((res) => {
                     this.info = res.data.data.userInfo;
-                    this.follower = res.data.data.follower;
+                    this.info.follower = res.data.data.follower;
+                    if (this.info.follower.follower != this.follower) {
+                        this.top = true;
+                        this.difference =
+                            this.info.follower.follower - this.follower;
+                        if (this.difference > 0) {
+                            this.status = true;
+                        } else {
+                            this.status = false;
+                        }
+                        this.follower = this.info.follower.follower;
+                    } else {
+                        this.top = false;
+                    }
                 });
         },
         getVideo() {
@@ -234,6 +255,26 @@ export default {
     flex-wrap: wrap;
 }
 
+.content .info .addNum {
+    opacity: 0;
+    position: absolute;
+    top: -25px;
+    right: 0;
+    color: yellow;
+    font-size: 35px;
+}
+
+@keyframes top {
+    to {
+        opacity: 1;
+        transform: translateY(-15px);
+    }
+}
+
+.content .info .top {
+    animation: top 1.5s;
+}
+
 .content > div {
     display: flex;
     justify-content: center;
@@ -278,6 +319,10 @@ export default {
 .content .list .item .title {
     font-size: 20px;
     margin-right: 15px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
 }
 
 .content .list .item .count svg {
@@ -291,6 +336,7 @@ export default {
 
 .content .info {
     margin-bottom: 15px;
+    position: relative;
 }
 
 .data {
@@ -308,7 +354,9 @@ export default {
 }
 
 .data li:nth-child(3n-1) {
-    justify-content: center;
+    width: 100px;
+    justify-content: flex-start;
+    padding-left: 55px;
 }
 
 .data li:nth-child(3n) {

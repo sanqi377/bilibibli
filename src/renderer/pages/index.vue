@@ -19,6 +19,6 @@ export default {
 
 <style scoped>
 #content {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
 }
 </style>

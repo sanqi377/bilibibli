@@ -71,6 +71,7 @@ export default {
     transform: translate(-50%, -50%);
     background: rgba(0, 0, 0, 0.9);
     color: #fff;
+    z-index: 999999
 }
 
 .dialog .top {
@@ -99,6 +100,11 @@ export default {
     border-radius: 5px;
     border: 1px solid #ccc;
     cursor: pointer;
+}
+
+.bottom > div:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
 }
 
 .dialog svg {

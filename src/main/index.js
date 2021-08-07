@@ -52,13 +52,13 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         frame: false,
         transparent: true,
-        // height: 400,
-        height: 1000,
+        height: 365,
+        // height: 1000,
         useContentSize: true,
         resizable: false,
         webPreferences: { webSecurity: false },
-        // width: 650
-        width: 1500
+        width: 650
+            // width: 1500
     })
 
     // 双击不可放大缩小
