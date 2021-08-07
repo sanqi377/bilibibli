@@ -1,41 +1,86 @@
 <template>
     <div class="dialog" v-if="value">
-        <div class="top">
-            <div class="title">基本设置</div>
-            <div class="close" @click="cancel">
-                <svg
-                    t="1628251169825"
-                    class="icon"
-                    viewBox="0 0 1024 1024"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    p-id="4721"
-                >
-                    <path
-                        d="M574.55 522.35L904.4 192.5c16.65-16.65 16.65-44.1 0-60.75l-1.8-1.8c-16.65-16.65-44.1-16.65-60.75 0L512 460.25l-329.85-330.3c-16.65-16.65-44.1-16.65-60.75 0l-1.8 1.8c-17.1 16.65-17.1 44.1 0 60.75l329.85 329.85L119.6 852.2c-16.65 16.65-16.65 44.1 0 60.75l1.8 1.8c16.65 16.65 44.1 16.65 60.75 0L512 584.9l329.85 329.85c16.65 16.65 44.1 16.65 60.75 0l1.8-1.8c16.65-16.65 16.65-44.1 0-60.75L574.55 522.35z"
-                        p-id="4722"
-                        fill="#8a8a8a"
-                    ></path>
-                </svg>
+        <div v-show="!type">
+            <div class="top">
+                <div class="title">基本设置</div>
+                <div class="close" @click="cancel">
+                    <svg
+                        t="1628251169825"
+                        class="icon"
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        p-id="4721"
+                    >
+                        <path
+                            d="M574.55 522.35L904.4 192.5c16.65-16.65 16.65-44.1 0-60.75l-1.8-1.8c-16.65-16.65-44.1-16.65-60.75 0L512 460.25l-329.85-330.3c-16.65-16.65-44.1-16.65-60.75 0l-1.8 1.8c-17.1 16.65-17.1 44.1 0 60.75l329.85 329.85L119.6 852.2c-16.65 16.65-16.65 44.1 0 60.75l1.8 1.8c16.65 16.65 44.1 16.65 60.75 0L512 584.9l329.85 329.85c16.65 16.65 44.1 16.65 60.75 0l1.8-1.8c16.65-16.65 16.65-44.1 0-60.75L574.55 522.35z"
+                            p-id="4722"
+                            fill="#8a8a8a"
+                        ></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="content">
+                <div class="input">
+                    <span>用户 Id：</span>
+                    <input type="text" v-model="info.user" />
+                </div>
+                <div class="input">
+                    <span>直播 Id：</span>
+                    <input type="text" v-model="info.live" />
+                </div>
+                <div class="input">
+                    <span>Cookie：</span>
+                    <input type="text" v-model="info.cookie" />
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="cancel" @click="cancel">取消</div>
+                <div class="save" @click="save">保存</div>
             </div>
         </div>
-        <div class="content">
-            <div class="input">
-                <span>用户 Id：</span>
-                <input type="text" v-model="info.user" />
+        <div v-show="type">
+            <div class="top">
+                <div class="title">弹幕发送设置</div>
+                <div class="close" @click="cancel">
+                    <svg
+                        t="1628251169825"
+                        class="icon"
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        p-id="4721"
+                    >
+                        <path
+                            d="M574.55 522.35L904.4 192.5c16.65-16.65 16.65-44.1 0-60.75l-1.8-1.8c-16.65-16.65-44.1-16.65-60.75 0L512 460.25l-329.85-330.3c-16.65-16.65-44.1-16.65-60.75 0l-1.8 1.8c-17.1 16.65-17.1 44.1 0 60.75l329.85 329.85L119.6 852.2c-16.65 16.65-16.65 44.1 0 60.75l1.8 1.8c16.65 16.65 44.1 16.65 60.75 0L512 584.9l329.85 329.85c16.65 16.65 44.1 16.65 60.75 0l1.8-1.8c16.65-16.65 16.65-44.1 0-60.75L574.55 522.35z"
+                            p-id="4722"
+                            fill="#8a8a8a"
+                        ></path>
+                    </svg>
+                </div>
             </div>
-            <div class="input">
-                <span>直播 Id：</span>
-                <input type="text" v-model="info.live" />
+            <div class="content">
+                <div class="input">
+                    <span>csrf：</span>
+                    <input type="text" v-model="info.csrf" />
+                </div>
+                <div class="input">
+                    <span>color：</span>
+                    <input type="text" v-model="info.color" />
+                </div>
+                <div class="input">
+                    <span>fontsize</span>
+                    <input type="text" v-model="info.fontsize" />
+                </div>
+                <div class="input">
+                    <span>rnd</span>
+                    <input type="text" v-model="info.rnd" />
+                </div>
             </div>
-            <div class="input">
-                <span>Cookie：</span>
-                <input type="text" v-model="info.cookie" />
+            <div class="bottom">
+                <div class="cancel" @click="cancel">取消</div>
+                <div class="save" @click="save">保存</div>
             </div>
-        </div>
-        <div class="bottom">
-            <div class="cancel" @click="cancel">取消</div>
-            <div class="save" @click="save">保存</div>
         </div>
     </div>
 </template>
@@ -43,7 +88,7 @@
 <script>
 export default {
     name: "Dialog",
-    props: ["value"],
+    props: ["value", "type"],
     data() {
         return {
             info: {},
@@ -75,7 +120,7 @@ export default {
     transform: translate(-50%, -50%);
     background: rgba(0, 0, 0, 0.9);
     color: #fff;
-    z-index: 999999
+    z-index: 999999;
 }
 
 .dialog .top {

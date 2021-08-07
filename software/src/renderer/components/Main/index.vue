@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <div class="title">{{ info.name }}</div>
+        <div class="title">{{ info.nickname }}</div>
         <div class="content">
             <div class="info">
                 <img src="./../../assets/img/blibli.png" alt="" />
@@ -9,9 +9,9 @@
                     >{{ status ? "+" : "" }}{{ difference }}</span
                 >
             </div>
-            <div class="list" v-for="item in video" :key="item.aid">
-                <div class="item" v-show="item.active">
-                    <div class="title">{{ item.title }}</div>
+            <div class="list">
+                <div class="item">
+                    <div class="title">{{ videos.title }}</div>
                     <div class="count">
                         <svg
                             t="1628259457007"
@@ -32,10 +32,10 @@
                                 p-id="2690"
                             ></path>
                         </svg>
-                        <span>{{ item.view }}</span>
+                        <span>{{ videos.view }}</span>
                     </div>
                 </div>
-                <ul class="data" v-show="item.active">
+                <ul class="data">
                     <li>
                         <span class="icon">
                             <svg
@@ -53,7 +53,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>{{ item.like }}</span>
+                        <span>{{ videos.like }}</span>
                     </li>
                     <li>
                         <span class="icon">
@@ -72,7 +72,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span> {{ item.coin }} </span>
+                        <span> {{ videos.coin }} </span>
                     </li>
                     <li>
                         <span class="icon">
@@ -91,7 +91,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>{{ item.favorite }}</span>
+                        <span>{{ videos.favorite }}</span>
                     </li>
                     <li>
                         <span class="icon">
@@ -110,7 +110,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>{{ item.reply }}</span>
+                        <span>{{ videos.reply }}</span>
                     </li>
                     <li>
                         <span class="icon">
@@ -129,7 +129,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>{{ item.view }}</span>
+                        <span>{{ videos.view }}</span>
                     </li>
                     <li>
                         <span class="icon">
@@ -153,7 +153,7 @@
                                 ></path>
                             </svg>
                         </span>
-                        <span>{{ item.share }}</span>
+                        <span>{{ videos.share }}</span>
                     </li>
                 </ul>
             </div>
@@ -173,10 +173,12 @@ export default {
                 follower: {},
             },
             follower: 0,
-            video: {},
+            video: [],
             difference: 0,
             status: true,
             top: false,
+            videos: {},
+            number: 0,
         };
     },
     mounted() {
@@ -190,22 +192,21 @@ export default {
     methods: {
         getInfo() {
             this.$http
-                .post("https://api.qblog.cc/index/external/blibli", {
+                .post("http://localhost:3000/bilibili/user/getInfo", {
                     mid: this.$store.state.setting.user,
                 })
                 .then((res) => {
-                    this.info = res.data.data.userInfo;
+                    this.info.nickname = res.data.data.nickname;
                     this.info.follower = res.data.data.follower;
-                    if (this.info.follower.follower != this.follower) {
+                    if (this.info.follower != this.follower) {
                         this.top = true;
-                        this.difference =
-                            this.info.follower.follower - this.follower;
+                        this.difference = this.info.follower - this.follower;
                         if (this.difference > 0) {
                             this.status = true;
                         } else {
                             this.status = false;
                         }
-                        this.follower = this.info.follower.follower;
+                        this.follower = this.info.follower;
                     } else {
                         this.top = false;
                     }
@@ -213,28 +214,24 @@ export default {
         },
         getVideo() {
             this.$http
-                .post("https://api.qblog.cc/index/external/blibliVideo")
+                .post("http://localhost:3000/bilibili/user/getVideo", {
+                    mid: this.$store.state.setting.user,
+                })
                 .then((res) => {
                     this.video = res.data.data;
                     this.video.forEach((item) => {
                         item.active = false;
                     });
-                    this.video[this.video.length - 1].active = true;
+                    this.videos = this.video[0];
                 });
         },
         changeVideo() {
-            var arr = this.video;
-            var number;
-            for (let i = 0; i < arr.length; i++) {
-                if (arr[i].active) {
-                    number = i - 1;
-                }
-                arr[i].active = false;
+            this.number++;
+            if (this.number == this.video.length) {
+                this.number = 0;
             }
-            if (number < 0) {
-                number = arr.length - 1;
-            }
-            arr[number].active = true;
+            this.videos = this.video[this.number];
+            console.log(this.video.length - 1, this.number);
         },
     },
     components: {
