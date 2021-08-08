@@ -19,6 +19,7 @@ export default {
         };
     },
     mounted() {
+      console.log(this)
       this.getLiveInfo();
         setInterval(() => {
             this.getLiveInfo();
@@ -28,7 +29,7 @@ export default {
         getLiveInfo() {
             this.$http
                 .get(
-                    "http://localhost:3000/api/live/getInfo?room_id=" +
+                    "/api/live/getInfo?room_id=" +
                         this.$store.state.setting.live
                 )
                 .then((res) => {

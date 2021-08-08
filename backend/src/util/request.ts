@@ -42,7 +42,6 @@ module.exports = {
         }
       }, (err: any, rep: any, body: string) => {
         let param: { data: object } = JSON.parse(body)
-        console.log(param)
         resolve(param.data);
       })
     })

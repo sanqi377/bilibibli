@@ -48,7 +48,7 @@
                 ></path>
             </svg>
         </div>
-        <div class="close" @click="close">
+        <div class="close" @click="closes">
             <svg
                 t="1628251169825"
                 class="icon"
@@ -111,7 +111,7 @@ export default {
             this.lockIs = !this.lockIs;
             this.$electron.ipcRenderer.send("window-lock");
         },
-        close() {
+        closes() {
             this.closeIs = !this.closeIs;
             this.$electron.ipcRenderer.send("window-close");
         },

@@ -1,5 +1,5 @@
 <template>
-    <div class="dialog" v-if="value">
+    <div class="dialog" v-show="value">
         <div v-show="!type">
             <div class="top">
                 <div class="title">基本设置</div>
@@ -23,15 +23,15 @@
             <div class="content">
                 <div class="input">
                     <span>用户 Id：</span>
-                    <input type="text" v-model="info.user" />
+                    <input type="text" v-model="setting.user" />
                 </div>
                 <div class="input">
                     <span>直播 Id：</span>
-                    <input type="text" v-model="info.live" />
+                    <input type="text" v-model="setting.live" />
                 </div>
                 <div class="input">
                     <span>Cookie：</span>
-                    <input type="text" v-model="info.cookie" />
+                    <input type="text" v-model="setting.cookie" />
                 </div>
             </div>
             <div class="bottom">
@@ -62,19 +62,19 @@
             <div class="content">
                 <div class="input">
                     <span>csrf：</span>
-                    <input type="text" v-model="info.csrf" />
+                    <input type="text" v-model="setting.csrf" />
                 </div>
                 <div class="input">
                     <span>color：</span>
-                    <input type="text" v-model="info.color" />
+                    <input type="text" v-model="setting.color" />
                 </div>
                 <div class="input">
                     <span>fontsize</span>
-                    <input type="text" v-model="info.fontsize" />
+                    <input type="text" v-model="setting.fontsize" />
                 </div>
                 <div class="input">
                     <span>rnd</span>
-                    <input type="text" v-model="info.rnd" />
+                    <input type="text" v-model="setting.rnd" />
                 </div>
             </div>
             <div class="bottom">
@@ -91,15 +91,17 @@ export default {
     props: ["value", "type"],
     data() {
         return {
-            info: {},
+            setting: {},
         };
     },
     mounted() {
-        this.info = JSON.parse(localStorage.getItem("Setting"));
+        if (JSON.parse(localStorage.getItem("Setting"))) {
+            this.setting = JSON.parse(localStorage.getItem("Setting"));
+        }
     },
     methods: {
         save() {
-            var data = this.info;
+            var data = this.setting;
             this.$store.commit("setSetting", data);
             this.$emit("close");
         },

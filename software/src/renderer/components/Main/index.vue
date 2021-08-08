@@ -44,10 +44,7 @@ export default {
     methods: {
         getInfo() {
             this.$http
-                .get(
-                    "http://localhost:3000/api/user/getInfo?mid=" +
-                        this.$store.state.setting.user
-                )
+                .get("/api/user/getInfo?mid=" + this.$store.state.setting.user)
                 .then((res) => {
                     this.info.nickname = res.data.data.nickname;
                     this.info.follower = res.data.data.follower;

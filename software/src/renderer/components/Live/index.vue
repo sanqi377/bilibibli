@@ -37,7 +37,7 @@ export default {
         getBarrage() {
             this.$http
                 .get(
-                    "http://localhost:3000/api/live/getBarrage?roomid=" +
+                    "/api/live/getBarrage?roomid=" +
                         this.$store.state.setting.live
                 )
                 .then((res) => {
@@ -46,7 +46,7 @@ export default {
 
             this.$http
                 .get(
-                    "http://localhost:3000/api/live/getGift?cookie=" +
+                    "/api/live/getGift?cookie=" +
                         this.$store.state.setting.cookie
                 )
                 .then((res) => {

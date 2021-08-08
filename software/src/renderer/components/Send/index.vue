@@ -36,7 +36,7 @@ export default {
     methods: {
         submit() {
             this.$http.get(
-                "http://localhost:3000/api/live/sendBarrage?roomid=" +
+                "/api/live/sendBarrage?roomid=" +
                     this.$store.state.setting.live +
                     "&msg=" +
                     this.text +
