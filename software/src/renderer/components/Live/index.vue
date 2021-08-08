@@ -1,14 +1,17 @@
 <template>
     <div id="live">
         <div class="gift">
-            <div v-for="item in gift" :key="item.time">
+            <div v-for="item in gift" :key="item">
                 {{ item.uname }}：赠送了 {{ item.gift_num }} 个{{
                     item.gift_name
                 }}
             </div>
         </div>
         <div class="text">
-            <p v-for="item in data" :key="item.time">
+            <p
+                v-for="item in data"
+                :key="item.gift_num + Math.floor(Math.random() * 100 + 1)"
+            >
                 {{ item.nickname }}：{{ item.text }}
             </p>
         </div>
@@ -33,19 +36,21 @@ export default {
     methods: {
         getBarrage() {
             this.$http
-                .post("http://localhost:3000/bilibili/live/getBarrage", {
-                    id: this.$store.state.setting.live,
-                })
+                .get(
+                    "http://localhost:3000/api/live/getBarrage?roomid=" +
+                        this.$store.state.setting.live
+                )
                 .then((res) => {
                     this.data = res.data.data.room.slice(-5);
                 });
 
             this.$http
-                .post("http://localhost:3000/bilibili/live/getGift", {
-                    cookie: this.$store.state.setting.cookie,
-                })
+                .get(
+                    "http://localhost:3000/api/live/getGift?cookie=" +
+                        this.$store.state.setting.cookie
+                )
                 .then((res) => {
-                    this.gift = res.data.data.slice(-5);
+                    this.gift = res.data.data;
                 });
         },
     },

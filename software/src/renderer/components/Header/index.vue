@@ -82,7 +82,6 @@ export default {
             cancel: false,
         };
     },
-    mounted() {},
     methods: {
         sticky() {
             this.stickyIs = !this.stickyIs;

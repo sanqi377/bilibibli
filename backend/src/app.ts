@@ -6,7 +6,7 @@ const routerApi = require("./router/index")
 
 app.use("/api", routerApi)
 
-app.listen(3001, () => {
+app.listen(3000, () => {
   console.log("网站服务器已启动")
 })
 

@@ -70,14 +70,13 @@ router.get("/live/getGift", async (req: any, res: any) => {
   };
 
   let data = await http.get("https://api.live.bilibili.com/xlive/revenue/v1/giftStream/getReceivedGiftStreamList", datas, query.cookie)
-
   res.send({ data: data.list })
 })
 
 /**
  * 发送弹幕接口
  * url: /api/live/sendBarrage
- * param: roomid、msg、csrf、rnd、fontsize、color
+ * param: roomid、msg、csrf、rnd、fontsize、color、cookie
  */
 router.get("/live/sendBarrage", async (req: any, res: any) => {
   const { query } = req;

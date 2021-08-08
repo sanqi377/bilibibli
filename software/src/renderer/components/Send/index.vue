@@ -35,15 +35,22 @@ export default {
     },
     methods: {
         submit() {
-            this.$http.post("http://localhost:3000/bilibili/live/sendBarrage", {
-                csrf: this.$store.state.setting.csrf,
-                color: this.$store.state.setting.color,
-                msg: this.text,
-                roomid: this.$store.state.setting.live,
-                fontsize: this.$store.state.setting.fontsize,
-                rnd: this.$store.state.setting.rnd,
-                cookie: this.$store.state.setting.cookie,
-            });
+            this.$http.get(
+                "http://localhost:3000/api/live/sendBarrage?roomid=" +
+                    this.$store.state.setting.live +
+                    "&msg=" +
+                    this.text +
+                    "&csrf=" +
+                    this.$store.state.setting.csrf +
+                    "&rnd=" +
+                    this.$store.state.setting.rnd +
+                    "&fontsize=" +
+                    this.$store.state.setting.fontsize +
+                    "&color=" +
+                    this.$store.state.setting.color +
+                    "&cookie=" +
+                    this.$store.state.setting.cookie
+            );
             this.text = null;
         },
         edit() {

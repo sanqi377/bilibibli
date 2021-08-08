@@ -9,13 +9,13 @@
 <script>
 import Header from "@/components/Header";
 import Main from "@/components/Main";
-import Send from "@/components/Send"
+import Send from "@/components/Send";
 
 export default {
     components: {
         Header,
         Main,
-        Send
+        Send,
     },
 };
 </script>
