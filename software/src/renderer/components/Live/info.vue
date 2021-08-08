@@ -4,7 +4,7 @@
         <div class="info">
             <ul>
                 <li>主播人气：{{ data.online }}</li>
-                <li>在线时长：{{ data.time }}</li>
+                <li>直播时长：{{ data.time }}</li>
                 <li>直播分类：{{ data.cat }}</li>
             </ul>
         </div>
