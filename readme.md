@@ -23,3 +23,31 @@ npm run dev
 ```shell
 npm run build
 ```
+
+### Warning
+
+If you are running the software for the first time.Must be restarted after setup.
+
+## Install backend
+
+```shell
+cd backend
+
+npm install
+```
+
+### Compile the code
+
+```shell
+npm run build
+```
+
+### Running code
+
+```shell
+npm run dev
+```
+
+### Warning
+
+The compiled code is stored in the dist directory.
