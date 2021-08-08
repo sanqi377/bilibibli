@@ -8,6 +8,9 @@ This is a project to practice for learning electron and typescript.The code is w
 
 It can have a good live effect.It can mainly count fan information,you can also count live information,you can also send pop-ups.
 
+## Interface Preview
+(!预览图)[https://github.com/sanqi377/picture/blob/main/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210808193631.png?raw=true]
+
 ## Install software
 
 ```shell
