@@ -4,6 +4,10 @@
 
 This is a project to practice for learning electron and typescript.The code is written in a bit of a mess.
 
+## What it can do?
+
+It can have a good live effect.It can mainly count fan information,you can also count live information,you can also send pop-ups.
+
 ## Install software
 
 ```shell
