@@ -27,6 +27,10 @@ const api = {
         getPopups: (param) => {
             const data = paramToString(param)
             return ajax.get("/api/live/getBarrage" + data);
+        },
+        sendPopups: (param) => {
+            const data = paramToString(param)
+            return ajax.get("/api/live/sendBarrage" + data);
         }
     }
 }

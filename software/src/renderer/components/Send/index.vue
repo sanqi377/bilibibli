@@ -35,6 +35,17 @@ export default {
     },
     methods: {
         submit() {
+            this.$api.live.sendPopups({
+                roomid: this.$store.state.setting.live,
+                msg: this.text,
+                csrf: this.$store.state.setting.csrf,
+                rnd: this.$store.state.setting.rnd,
+                fontsize: this.$store.state.setting.fontsize,
+                color: this.$store.state.setting.color,
+                cookie: this.$store.state.setting.cookie,
+            });
+            
+            this.text = null;
             this.$http.get(
                 "/api/live/sendBarrage?roomid=" +
                     this.$store.state.setting.live +
@@ -51,7 +62,7 @@ export default {
                     "&cookie=" +
                     this.$store.state.setting.cookie
             );
-            this.text = null;
+            
         },
         edit() {
             this.show = true;
