@@ -49,7 +49,8 @@ export default {
 
 #popups .item {
     font-size: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
+    line-height: 25px;
 }
 
 #popups .item:last-child {
