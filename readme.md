@@ -16,7 +16,7 @@ It can have a good live effect.It can mainly count fan information,you can also 
 ```shell
 cd software
 
-npm install
+yarn
 ```
 
 ### Test Environment
