@@ -1,16 +1,16 @@
 <template>
     <div id="live">
-        <div class="gift">
+        <!-- <div class="gift">
             <div v-for="item in gift" :key="item">
                 {{ item.uname }}：赠送了 {{ item.gift_num }} 个{{
                     item.gift_name
                 }}
             </div>
-        </div>
+        </div> -->
         <div class="text">
             <p
                 v-for="item in data"
-                :key="item.gift_num + Math.floor(Math.random() * 100 + 1)"
+                :key="item.time"
             >
                 {{ item.nickname }}：{{ item.text }}
             </p>
@@ -24,34 +24,34 @@ export default {
     data() {
         return {
             data: {},
-            gift: {},
+            // gift: {},
         };
     },
     mounted() {
-        this.getBarrage();
-        setInterval(() => {
-            this.getBarrage();
-        }, 500);
+        // this.getBarrage();
+        // setInterval(() => {
+        //     this.getBarrage();
+        // }, 500);
     },
     methods: {
         getBarrage() {
-            this.$http
-                .get(
-                    "/api/live/getBarrage?roomid=" +
-                        this.$store.state.setting.live
-                )
-                .then((res) => {
-                    this.data = res.data.data.room.slice(-5);
-                });
+            // this.$http
+            //     .get(
+            //         "/api/live/getBarrage?roomid=" +
+            //             this.$store.state.setting.live
+            //     )
+            //     .then((res) => {
+            //         this.data = res.data.data.room.slice(-5);
+            //     });
 
-            this.$http
-                .get(
-                    "/api/live/getGift?cookie=" +
-                        this.$store.state.setting.cookie
-                )
-                .then((res) => {
-                    this.gift = res.data.data;
-                });
+            // this.$http
+            //     .get(
+            //         "/api/live/getGift?cookie=" +
+            //             this.$store.state.setting.cookie
+            //     )
+            //     .then((res) => {
+            //         this.gift = res.data.data;
+            //     });
         },
     },
 };

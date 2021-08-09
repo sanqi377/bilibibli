@@ -69,11 +69,11 @@
                     <input type="text" v-model="setting.color" />
                 </div>
                 <div class="input">
-                    <span>fontsize</span>
+                    <span>fontsize：</span>
                     <input type="text" v-model="setting.fontsize" />
                 </div>
                 <div class="input">
-                    <span>rnd</span>
+                    <span>rnd：</span>
                     <input type="text" v-model="setting.rnd" />
                 </div>
             </div>
@@ -128,11 +128,11 @@ export default {
 .dialog .top {
     display: flex;
     justify-content: space-between;
-    padding: 20px 25px;
+    padding: 18px 25px;
 }
 
 .top .title {
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .bottom {
@@ -163,7 +163,7 @@ export default {
 }
 
 .content .input input {
-    width: 85%;
+    width: 75%;
     background: transparent;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -180,7 +180,7 @@ export default {
 }
 
 .content .input span {
-    width: 15%;
+    width: 25%;
 }
 
 .close {

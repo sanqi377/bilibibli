@@ -15,7 +15,7 @@ export default {
     components: {
         Header,
         Main,
-        Send,
+        Send
     },
 };
 </script>

@@ -12,6 +12,7 @@
 </template>
 
 <script>
+var status = true;
 export default {
     data() {
         return {
@@ -19,36 +20,32 @@ export default {
         };
     },
     mounted() {
-      console.log(this)
-      this.getLiveInfo();
-        setInterval(() => {
-            this.getLiveInfo();
-        }, 5000);
+        this.getInfo();
     },
     methods: {
-        getLiveInfo() {
-            this.$http
-                .get(
-                    "/api/live/getInfo?room_id=" +
-                        this.$store.state.setting.live
-                )
+        getInfo() {
+            this.$api.live
+                .getInfo({ room_id: this.$store.state.setting.live })
                 .then((res) => {
                     this.data = res.data.data;
                     this.data.time = this.customTime(res.data.data.time);
+                    if (status) {
+                        status = false;
+                        setInterval(() => {
+                            this.getInfo();
+                        }, 5000);
+                    }
                 });
         },
         customTime(item) {
             const nowTime = new Date().getTime();
-
             const minuteTime = 60 * 1000;
             const hourTime = 60 * minuteTime;
             const dayTime = 24 * hourTime;
             const monthTime = dayTime * 30;
             const yearTime = monthTime * 12;
-
             const historyTime = new Date(item * 1000).getTime();
             const diffTime = parseInt(nowTime) - parseInt(historyTime);
-
             let descTime;
             if (diffTime >= yearTime) {
                 // 按年算
@@ -76,7 +73,7 @@ export default {
 
 <style scoped>
 .title {
-    font-size: 25px;
+    font-size: 20px;
     color: #fff;
     text-align: center;
 }

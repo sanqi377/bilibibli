@@ -68,8 +68,7 @@ export default {
 
 <style scoped>
 #send > div:first-child {
-    width: 80%;
-    margin: 0 auto;
+    padding: 0 25px;
     padding-bottom: 30px;
     color: #fff;
     display: flex;
@@ -80,18 +79,18 @@ export default {
 #send span {
     display: flex;
     justify-content: flex-start;
-    width: 15%;
+    width: 20%;
 }
 
 #send span:last-child {
     cursor: pointer;
     display: flex;
     justify-content: flex-end;
-    width: 6%;
+    width: 8%;
 }
 
 #send input {
-    width: 80%;
+    width: 79%;
     outline: none;
     background: transparent;
     border-radius: 4px;

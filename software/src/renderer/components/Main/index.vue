@@ -11,13 +11,14 @@
             </div>
         </div>
         <LiveInfo />
-        <Live />
+        <Popups />
     </div>
 </template>
 
 <script>
-import Live from "@/components/Live";
 import LiveInfo from "@/components/Live/info";
+import Popups from "@/components/Popups";
+var status = true;
 
 export default {
     name: "Main",
@@ -26,29 +27,24 @@ export default {
             info: {
                 follower: {},
             },
-            follower: 0,
-            video: [],
+            follower: 0, // 粉丝数量
             difference: 0,
             status: true,
             top: false,
-            videos: {},
-            number: 0,
         };
     },
     mounted() {
         this.getInfo();
-        setInterval(() => {
-            this.getInfo();
-        }, 5000);
     },
     methods: {
         getInfo() {
-            this.$http
-                .get("/api/user/getInfo?mid=" + this.$store.state.setting.user)
+            this.$api.info
+                .getUser({
+                    mid: this.$store.state.setting.user,
+                })
                 .then((res) => {
                     this.info.nickname = res.data.data.nickname;
                     this.info.follower = res.data.data.follower;
-
                     if (this.info.follower != this.follower) {
                         this.top = true;
                         this.difference = this.info.follower - this.follower;
@@ -62,26 +58,33 @@ export default {
                     setTimeout(() => {
                         this.top = false;
                     }, 1000);
+                    if (status) {
+                        status = false;
+                        setInterval(() => {
+                            this.getInfo();
+                        }, 5000);
+                    }
                 });
         },
     },
     components: {
-        Live,
         LiveInfo,
+        Popups
     },
 };
 </script>
 
 <style scoped>
 #main {
-    padding: 0 65px;
+    padding: 0 25px;
+    padding-bottom: 25px;
 }
 
 .title {
     color: #fff;
-    font-size: 45px;
+    font-size: 35px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .content {
@@ -118,13 +121,13 @@ export default {
 }
 
 .content span {
-    font-size: 120px;
+    font-size: 90px;
     color: #fff;
 }
 
 .content img {
-    height: 100px;
-    margin-right: 25px;
+    height: 75px;
+    margin-right: 20px;
 }
 
 .content .info {
