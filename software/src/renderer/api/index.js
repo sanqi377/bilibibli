@@ -1,6 +1,7 @@
 import ajax from 'axios'
 
-ajax.defaults.baseURL = "http://localhost:3000"
+// ajax.defaults.baseURL = "http://bilibili.qblog.cc/"
+ajax.defaults.baseURL = "http://localhost:3004"
 
 const paramToString = (param) => {
     var str = "?"
