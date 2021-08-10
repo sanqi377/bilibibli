@@ -19,6 +19,12 @@ cd software
 yarn
 ```
 
+## Modifying the api interface
+
+```
+./software/src/renderer/api/index.js  // Third line
+```
+
 ### Test Environment
 
 ```shell
