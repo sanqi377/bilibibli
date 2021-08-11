@@ -43,8 +43,8 @@ export default {
                     mid: this.$store.state.setting.user,
                 })
                 .then((res) => {
-                    this.info.nickname = res.data.data.nickname;
-                    this.info.follower = res.data.data.follower;
+                    this.info.nickname = res.data.userInfo.name;
+                    this.info.follower = res.data.userInfo.follower;
                     if (this.info.follower != this.follower) {
                         this.top = true;
                         this.difference = this.info.follower - this.follower;
@@ -69,7 +69,7 @@ export default {
     },
     components: {
         LiveInfo,
-        Popups
+        Popups,
     },
 };
 </script>

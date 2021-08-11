@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Dialog from "@/components/Dialog";
 export default {
     name: "Send",
@@ -41,28 +42,9 @@ export default {
                 csrf: this.$store.state.setting.csrf,
                 rnd: this.$store.state.setting.rnd,
                 fontsize: this.$store.state.setting.fontsize,
-                color: this.$store.state.setting.color,
-                cookie: this.$store.state.setting.cookie,
+                color: this.$store.state.setting.color
             });
-            
             this.text = null;
-            this.$http.get(
-                "/api/live/sendBarrage?roomid=" +
-                    this.$store.state.setting.live +
-                    "&msg=" +
-                    this.text +
-                    "&csrf=" +
-                    this.$store.state.setting.csrf +
-                    "&rnd=" +
-                    this.$store.state.setting.rnd +
-                    "&fontsize=" +
-                    this.$store.state.setting.fontsize +
-                    "&color=" +
-                    this.$store.state.setting.color +
-                    "&cookie=" +
-                    this.$store.state.setting.cookie
-            );
-            
         },
         edit() {
             this.show = true;

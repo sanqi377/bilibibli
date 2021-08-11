@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import '../renderer/store'
 
+import './express'
+
 // 窗口置顶
 ipcMain.on('window-top', () => {
     if (mainWindow.isAlwaysOnTop()) {
@@ -44,6 +46,7 @@ let mainWindow
 const winURL = process.env.NODE_ENV === 'development' ?
     `http://localhost:9080` :
     `file://${__dirname}/index.html`
+
 
 function createWindow() {
     /**

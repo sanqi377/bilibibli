@@ -1,7 +1,6 @@
 import ajax from 'axios'
 
-// ajax.defaults.baseURL = "http://bilibili.qblog.cc/"
-ajax.defaults.baseURL = "http://localhost:3004"
+ajax.defaults.baseURL = "http://localhost:3009"
 
 const paramToString = (param) => {
     var str = "?"
@@ -17,21 +16,21 @@ const api = {
     info: {
         getUser: (param) => {
             const data = paramToString(param)
-            return ajax.get("/api/user/getInfo" + data);
+            return ajax.get("/user/getInfo" + data);
         }
     },
     live: {
         getInfo: (param) => {
             const data = paramToString(param)
-            return ajax.get("/api/live/getInfo" + data);
+            return ajax.get("/live/getInfo" + data);
         },
         getPopups: (param) => {
             const data = paramToString(param)
-            return ajax.get("/api/live/getBarrage" + data);
+            return ajax.get("/live/getBarrage" + data);
         },
         sendPopups: (param) => {
             const data = paramToString(param)
-            return ajax.get("/api/live/sendBarrage" + data);
+            return ajax.get("/live/sendBarrage" + data);
         }
     }
 }
