@@ -19,12 +19,6 @@ cd software
 yarn
 ```
 
-## Modifying the api interface
-
-```
-./software/src/renderer/api/index.js  // Third line
-```
-
 ### Test Environment
 
 ```shell
@@ -40,26 +34,6 @@ npm run build
 ### Warning
 
 If you are running the software for the first time.Must be restarted after setup.
-
-## Install backend
-
-```shell
-cd backend
-
-npm install
-```
-
-### Compile the code
-
-```shell
-npm run build
-```
-
-### Running code
-
-```shell
-npm run dev
-```
 
 ### Warning
 
