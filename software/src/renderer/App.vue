@@ -7,6 +7,24 @@
 <script>
 export default {
     name: "my-project",
+    data() {
+        return {
+            height: null,
+        };
+    },
+    mounted() {
+        setTimeout(() => {
+            this.height = this.$refs.app.offsetHeight;
+        }, 1000);
+    },
+    watch: {
+        height: function () {
+            this.$electron.ipcRenderer.send(
+                "window-height",
+                this.$refs.app.offsetHeight
+            );
+        },
+    },
 };
 </script>
 

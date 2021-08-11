@@ -1,5 +1,5 @@
 <template>
-    <div class="dialog" v-show="value">
+    <div id="dialog" class="dialog" v-show="value">
         <div v-show="!type">
             <div class="top">
                 <div class="title">基本设置</div>

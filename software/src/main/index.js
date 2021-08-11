@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import '../renderer/store'
 
+// 引入 express 服务端
 import './express'
 
 // 窗口置顶
@@ -29,6 +30,12 @@ ipcMain.on('window-lock', () => {
     }
 });
 
+// 窗口高度
+ipcMain.on('window-height', (event, height) => {
+    console.log(height)
+    mainWindow.setSize(440, height);
+});
+
 // 窗口关闭
 ipcMain.on('window-close', () => {
     mainWindow.close();
@@ -55,13 +62,13 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         frame: false,
         transparent: true,
-        height: 820,
-        // height: 1000,
+        // height: 820,
+        height: 1000,
         useContentSize: true,
         resizable: false,
         webPreferences: { webSecurity: false },
-        // width: 1650
-        width: 440
+        width: 1650
+            // width: 440
     })
 
     // 双击不可放大缩小

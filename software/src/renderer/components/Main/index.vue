@@ -78,6 +78,7 @@ export default {
 #main {
     padding: 0 25px;
     padding-bottom: 25px;
+    z-index: 1;
 }
 
 .title {
