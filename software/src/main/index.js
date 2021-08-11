@@ -63,12 +63,12 @@ function createWindow() {
         frame: false,
         transparent: true,
         // height: 820,
-        height: 1000,
+        // height: 1000,
         useContentSize: true,
         resizable: false,
         webPreferences: { webSecurity: false },
-        width: 1650
-            // width: 440
+        // width: 1650
+        // width: 440
     })
 
     // 双击不可放大缩小

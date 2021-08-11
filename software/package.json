@@ -1,8 +1,8 @@
 {
-    "name": "my-project",
+    "name": "bilibili",
     "version": "0.0.1",
-    "author": "叁柒 <75518418+sanqi377@users.noreply.github.com>",
-    "description": "An electron-vue project",
+    "author": "叁柒 sanqi377@outlook.com",
+    "description": "一款bilibili直播挂件，可实时显示粉丝及直播信息。",
     "license": null,
     "main": "./dist/electron/main.js",
     "scripts": {
@@ -20,17 +20,20 @@
         "postinstall": ""
     },
     "build": {
-        "productName": "my-project",
-        "appId": "com.example.yourapp",
+        "productName": "bilibili 弹幕姬",
+        "appId": "com.example.bilibilidm",
         "directories": {
             "output": "build"
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true
         },
         "files": [
             "dist/electron/**/*"
         ],
         "dmg": {
-            "contents": [
-                {
+            "contents": [{
                     "x": 410,
                     "y": 150,
                     "type": "link",
@@ -44,10 +47,10 @@
             ]
         },
         "mac": {
-            "icon": "build/icons/icon.icns"
+            "icon": "./icon.icns"
         },
         "win": {
-            "icon": "build/icons/icon.ico"
+            "icon": "/ico.ico"
         },
         "linux": {
             "icon": "build/icons"

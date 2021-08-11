@@ -15,7 +15,7 @@ export default {
     mounted() {
         setTimeout(() => {
             this.height = this.$refs.app.offsetHeight;
-        }, 1000);
+        }, 2000);
     },
     watch: {
         height: function () {
