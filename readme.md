@@ -37,4 +37,4 @@ If you are running the software for the first time.Must be restarted after setup
 
 ### Warning
 
-The compiled code is stored in the dist directory.
+Now not backend serve.So lang as software.
