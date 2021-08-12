@@ -2,14 +2,10 @@ import pako from 'pako'
 var popup = []
 export default class Socket {
     init(room_id) {
+        // 弹幕数组赋值
         this._popup = popup
-
-        // App热更新调用不重复创建
-        if (this._webSocket !== undefined) return
-
         const socketUrl = 'wss://broadcastlv.chat.bilibili.com:2245/sub'
         const heartData = '[object Object]'
-
         const firstData = {
             uid: 0,
             roomid: parseInt(room_id, 10),
@@ -25,8 +21,6 @@ export default class Socket {
             throw new Error(err)
         }
 
-
-
         this._webSocket.addEventListener('open', (ev) => {
             if (!this._webSocket) throw new Error('web socket 创建失败')
             console.log('sw: open')
@@ -35,7 +29,8 @@ export default class Socket {
         })
 
         this._webSocket.addEventListener('message', (msg) => {
-            // 发现消息进入 开始处理前端触发逻辑
+            console.log(msg, "有消息进入")
+                // 发现消息进入 开始处理前端触发逻辑
             var reader = new FileReader()
             reader.readAsArrayBuffer(msg.data) //把blob对象变成arraybuffer
             reader.onload = (event) => {
@@ -57,30 +52,37 @@ export default class Socket {
     }
 
     handleData(data) {
+
         const dv = new DataView(data)
-            //包长
+
+        //包长
         const packageLen = dv.getUint32(0)
-            //头部长度 固定16
+
+        //头部长度 固定16
         const headerLen = dv.getUint16(4)
-            //协议版本号
+
+        //协议版本号
         const protover = dv.getUint16(6)
-            //协议类型
+
+        //协议类型
         const operation = dv.getUint32(8)
-            //序列号 通常为1
+
+        //序列号 通常为1
         const sequence = dv.getUint32(12)
         data = data.slice(headerLen, packageLen)
-
+            // console.log(1, this.uintToString(new Uint8Array(data)))
         switch (protover) {
             case 0:
-                //广播信息
+                // 广播信息
+                console.log("这里处理广播信息", operation)
                 const str = this.uintToString(new Uint8Array(data))
-                    //  console.log(str);
+                console.log(str, "handleData")
                 break
             case 1:
+                console.log("这里处理啥？？？？？？？？", operation)
                 const dataV = new DataView(data)
-                console.log(operation)
                 if (operation === 3) {
-                    // console.log('人气值为：' + dataV.getUint32(0))
+                    console.log('人气值为：' + dataV.getUint32(0))
                 } else if (operation === 8) {
                     //连接成功返回{code:0}
                     const str = this.uintToString(new Uint8Array(data))
@@ -90,6 +92,8 @@ export default class Socket {
                 }
                 break
             case 2:
+                // 弹幕信息
+                console.log("这里处理弹幕信息", operation)
                 if (operation === 5) {
                     //解压
                     //          try {
@@ -108,6 +112,7 @@ export default class Socket {
     }
 
     unzip(data) {
+        console.log(2)
         var offect = 0
         var len = 0
         const maxLength = data.byteLength
@@ -119,7 +124,6 @@ export default class Socket {
             const protover = dv.getUint16(6)
             const operation = dv.getUint32(8)
             const sequence = dv.getUint32(12)
-                // console.log(sequence)
             var datas = data.slice(headerLen, packageLen)
             switch (protover) {
                 case 0:
@@ -203,6 +207,8 @@ export default class Socket {
     }
 
     uintToString(uintArray) {
+        console.log(uintArray, "必须是字符串")
+
         return decodeURIComponent(
             escape(String.fromCodePoint.apply(null, uintArray))
         )

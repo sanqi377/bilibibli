@@ -1,5 +1,6 @@
 <template>
     <div id="popups">
+        <div class="item" v-if="list.length <= 0">弹幕大军正在赶来...</div>
         <div class="item" v-for="(item, index) in list" :key="`DANMU-${index}`">
             <div v-if="item.type === 'INTERACT_WORD'">
                 {{ item.message }}
@@ -8,14 +9,14 @@
                 {{ item.name }}：{{ item.message }}
             </div>
         </div>
-        <div class="follow top">XXX<span> 关注了 </span>主播</div>
+        <div v-if="false" class="follow top">XXX<span> 关注了 </span>主播</div>
     </div>
 </template>
 
 <script>
 import Socket from "../../../main/socket/Socket";
 let sock = new Socket();
-sock.init("22888172");
+
 export default {
     data() {
         return {
@@ -28,14 +29,19 @@ export default {
     },
     methods: {
         getPopups() {
+            sock.init(
+                this.$store.state.setting.live
+                    ? this.$store.state.setting.live
+                    : "22888172"
+            );
             this.list = sock._popup;
         },
     },
     watch: {
         list: function () {
-            // let height = document.getElementById("app").offsetHeight;
-            // this.$electron.ipcRenderer.send("window-height", height + 35);
-            // console.log("新增弹幕", height + 50);
+            let height = document.getElementById("app").offsetHeight;
+            this.$electron.ipcRenderer.send("window-height", height + 35);
+            console.log("新增弹幕", height + 50);
         },
     },
 };
