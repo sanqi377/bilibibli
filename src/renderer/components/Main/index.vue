@@ -42,6 +42,7 @@ export default {
     },
     mounted() {
         this.getInfo();
+        console.log(this.$store.state.setting)
     },
     methods: {
         /**
@@ -68,18 +69,6 @@ export default {
                         }, 5000);
                     }
                 });
-        },
-        /**
-         * 语音合成
-         * @param {string} text：语音播报内容
-         */
-        stringToTTS(text) {
-            var url =
-                "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=4&text=" +
-                text;
-            var n = new Audio();
-            n.src = url;
-            n.play();
         },
     },
     watch: {
@@ -110,6 +99,8 @@ export default {
                     jsonp: "jsonp",
                 })
                 .then((res) => {
+                    console.log(res.data.data.list[0].uname)
+                    console.log(this.$store.state.setting.follow)
                     if (res.data.data.list.length >= 50) return;
                     this.fens = res.data.data.list;
                     setTimeout(() => {
@@ -117,7 +108,17 @@ export default {
                         this.fens = {};
                     }, 1000);
                     if (!this.$store.state.setting.follow) return;
-                    this.stringToTTS("谢谢" + res.data.data.list[0] + "的关注");
+                    /**
+                     * 感谢关注播报
+                     */
+                    var url =
+                        "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=4&text=" +
+                        "谢谢" +
+                        res.data.data.list[0].uname +
+                        "的关注";
+                    var n = new Audio();
+                    n.src = url;
+                    n.play();
                 });
         },
     },

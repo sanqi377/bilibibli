@@ -30,7 +30,7 @@ export default {
             const data = await this.$api.live.getInfo({
                 room_id: this.$store.state.setting.live,
             });
-            webSocket.init(data.data.data.room_id);
+            webSocket.init(data.data.data.room_id,this.$store.state.setting.comein);
             this.list = webSocket.arrData;
         },
     },
