@@ -1,6 +1,6 @@
 <div align=center>
 
-[![Npm version](https://img.shields.io/badge/npm-v7.10.0-DC143C)](https://github.com/sanqi377/bilibibli) [![Node version](https://img.shields.io/badge/node-v16.0.0-2E8B57)](https://github.com/sanqi377/bilibibli) [![Vue-electron version](https://img.shields.io/badge/vue--electron-v1.0.6-FFD700)](https://github.com/sanqi377/bilibibli) [![Vue version](https://img.shields.io/badge/vue-v2.5.16-E9967A)](https://github.com/sanqi377/bilibibli) [![GitHub version](https://badge.fury.io/gh/sanqi377%2Fbilibibli.svg)](https://github.com/sanqi377/bilibibli) [![GitHub license](https://img.shields.io/badge/LICENSE-MIT-000000)](https://github.com/sanqi377/bilibibli)
+[![Npm version](https://img.shields.io/badge/npm-v7.10.0-DC143C)](https://github.com/sanqi377/bilibibli) [![Node version](https://img.shields.io/badge/node-v16.0.0-2E8B57)](https://github.com/sanqi377/bilibibli) [![Vue-electron version](https://img.shields.io/badge/vue--electron-v1.0.6-FFD700)](https://github.com/sanqi377/bilibibli) [![Vue version](https://img.shields.io/badge/vue-v2.5.16-E9967A)](https://github.com/sanqi377/bilibibli) [![GitHub license](https://img.shields.io/badge/LICENSE-MIT-000000)](https://github.com/sanqi377/bilibibli)
 
 </div>
 
