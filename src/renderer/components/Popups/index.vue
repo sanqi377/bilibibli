@@ -26,13 +26,11 @@ export default {
         this.getPopups();
     },
     methods: {
-        getPopups() {
-            webSocket.init("22888172");
-            // webSocket.init(
-            //     this.$store.state.setting.live
-            //         ? this.$store.state.setting.live
-            //         : "22888172"
-            // );
+        async getPopups() {
+            const data = await this.$api.live.getInfo({
+                room_id: this.$store.state.setting.live,
+            });
+            webSocket.init(data.data.data.room_id);
             this.list = webSocket.arrData;
         },
     },

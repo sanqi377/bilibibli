@@ -1,3 +1,8 @@
+<center>
+
+[![Npm version](https://img.shields.io/badge/npm-v7.10.0-DC143C)](https://github.com/sanqi377/bilibibli) [![Node version](https://img.shields.io/badge/node-v16.0.0-2E8B57)](https://github.com/sanqi377/bilibibli) [![GitHub version](https://badge.fury.io/gh/sanqi377%2Fbilibibli.svg)](https://github.com/sanqi377/bilibibli) [![GitHub start](https://img.shields.io/github/stars/sanqi377/bilibibli)](https://github.com/sanqi377/bilibibli)
+</center>
+
 # BiliBili Live info plugin
 
 ## background

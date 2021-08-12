@@ -34,10 +34,10 @@ let time = (date) => {
 /**
  * 响应拦截器
  */
-axios.interceptors.response.use(function(response) {
+axios.interceptors.response.use(function (response) {
     let data = response.data
     return data.data;
-}, function(error) {
+}, function (error) {
     return Promise.reject(error);
 });
 
@@ -47,7 +47,7 @@ axios.interceptors.response.use(function(response) {
  * param: 用户 Mid
  * return: name
  */
-app.get('/user/getInfo', async(req, res) => {
+app.get('/user/getInfo', async (req, res) => {
     const { query } = req;
     query.vmid = query.mid
 
@@ -66,30 +66,16 @@ app.get('/user/getInfo', async(req, res) => {
  * url: /live/getInfo
  * param: room_id 直播间id
  */
-app.get("/live/getInfo", async(req, res) => {
+app.get("/live/getInfo", async (req, res) => {
     const { query } = req;
     let info = { title: '', time: 0, online: 0, cat: '' };
-    let { title, live_time, online, parent_area_name } = await axios.get("http://api.live.bilibili.com/room/v1/Room/get_info" + param(query));
+    let { title, room_id, live_time, online, parent_area_name } = await axios.get("http://api.live.bilibili.com/room/v1/Room/get_info" + param(query));
     info.title = title;
     info.time = time(live_time);
     info.online = online;
     info.cat = parent_area_name;
+    info.room_id = room_id
     res.send({ data: info });
-});
-
-/**
- * 获取弹幕接口
- * url: /live/getBarrage
- * param: roomid 直播间id
- */
-app.get("/live/getBarrage", async(req, res) => {
-    const { query } = req;
-    request({
-        url: "https://api.live.bilibili.com/xlive/web-room/v1/dM/gethistory" + param(query),
-    }, (err, rep, body) => {
-        let param = JSON.parse(body);
-        res.send({ data: param.data });
-    });
 });
 
 /**
@@ -97,7 +83,7 @@ app.get("/live/getBarrage", async(req, res) => {
  * url: /live/sendBarrage
  * param: roomid、msg、csrf、rnd、fontsize、color、cookie
  */
-app.get("/live/sendBarrage", async(req, res) => {
+app.get("/live/sendBarrage", async (req, res) => {
     const { query } = req;
     let cookie = store.state.setting.cookie
     request.post({
@@ -118,7 +104,7 @@ app.get("/live/sendBarrage", async(req, res) => {
  * url: /live/sendBarrage
  * param: roomid、msg、csrf、rnd、fontsize、color、cookie
  */
-app.get("/live/getFollow", async(req, res) => {
+app.get("/live/getFollow", async (req, res) => {
     const { query } = req;
     // request({
     //     url: "https://api.bilibili.com/x/relation/followers" + param(query),
