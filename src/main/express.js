@@ -53,17 +53,11 @@ app.get('/user/getInfo', async(req, res) => {
 
     let userInfo = {}
 
-    // 用户信息
-    let userUrl = 'https://api.bilibili.com/x/space/acc/info' + param(query)
-    let userData = await axios.get(userUrl)
+    let { card } = await axios.get('https://api.bilibili.com/x/web-interface/card' + param(query))
 
-    // 粉丝信息
-    let followerUrl = 'https://api.bilibili.com/x/relation/stat' + param(query)
-    let followerData = await axios.get(followerUrl)
-
-    // 用户信息赋值
-    userInfo.name = userData.name
-    userInfo.follower = followerData.follower
+    // // 用户信息赋值
+    userInfo.name = card.name
+    userInfo.follower = card.fans
     res.send({ userInfo })
 });
 
@@ -117,6 +111,21 @@ app.get("/live/sendBarrage", async(req, res) => {
         console.log(param)
         res.send({ data: param });
     });
+});
+
+/**
+ * 最新关注接口
+ * url: /live/sendBarrage
+ * param: roomid、msg、csrf、rnd、fontsize、color、cookie
+ */
+app.get("/live/getFollow", async(req, res) => {
+    const { query } = req;
+    // request({
+    //     url: "https://api.bilibili.com/x/relation/followers" + param(query),
+    // }, (err, rep, body) => {
+    //     let param = JSON.parse(body);
+    //     res.send({ data: param.data });
+    // });
 });
 
 app.listen(3009)

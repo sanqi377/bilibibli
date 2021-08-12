@@ -1033,7 +1033,7 @@
     "babel-runtime" "^6.22.0"
     "babel-template" "^6.24.1"
 
-"babel-loader@^7.1.4":
+"babel-loader@^7.1.5":
   "integrity" "sha1-4+4M1zlKpVfgE7AtPkkr/QeqbWg="
   "resolved" "https://registry.nlark.com/babel-loader/download/babel-loader-7.1.5.tgz"
   "version" "7.1.5"

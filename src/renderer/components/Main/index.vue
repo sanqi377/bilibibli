@@ -6,12 +6,12 @@
                 <img src="./../../assets/img/blibli.png" alt="" />
                 <span class="num">{{ follower }}</span>
                 <span :class="top ? 'addNum top' : 'addNum'"
-                    >{{ status ? "+" : "" }}{{ difference }}</span
+                    >{{ difference > 0 ? "+" : "" }}{{ difference }}</span
                 >
             </div>
         </div>
         <LiveInfo />
-        <Popups />
+        <Popups v-model="follower" />
     </div>
 </template>
 
@@ -38,6 +38,7 @@ export default {
     },
     methods: {
         getInfo() {
+            console.log("请求粉丝")
             this.$api.info
                 .getUser({
                     mid: this.$store.state.setting.user,
@@ -46,18 +47,11 @@ export default {
                     this.info.nickname = res.data.userInfo.name;
                     this.info.follower = res.data.userInfo.follower;
                     if (this.info.follower != this.follower) {
-                        this.top = true;
                         this.difference = this.info.follower - this.follower;
-                        if (this.difference > 0) {
-                            this.status = true;
-                        } else {
-                            this.status = false;
+                        if (this.info.follower != this.follower) {
+                            this.follower = this.info.follower;
                         }
-                        this.follower = this.info.follower;
                     }
-                    setTimeout(() => {
-                        this.top = false;
-                    }, 1000);
                     if (status) {
                         status = false;
                         setInterval(() => {
@@ -65,6 +59,14 @@ export default {
                         }, 5000);
                     }
                 });
+        },
+    },
+    watch: {
+        follower: function () {
+            this.top = true;
+            setTimeout(() => {
+                this.top = false;
+            }, 1000);
         },
     },
     components: {

@@ -28,6 +28,10 @@ const api = {
             const data = paramToString(param)
             return ajax.get("/live/getBarrage" + data);
         },
+        getFollow: (param) => {
+            const data = paramToString(param)
+            return ajax.get("/live/getFollow" + data);
+        },
         sendPopups: (param) => {
             const data = paramToString(param)
             return ajax.get("/live/sendBarrage" + data);
