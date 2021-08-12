@@ -1,6 +1,6 @@
 <template>
     <div id="dialog" class="dialog" v-show="value">
-        <div v-show="!type">
+        <div v-if="!type">
             <div class="top">
                 <div class="title">基本设置</div>
                 <div class="close" @click="cancel">
@@ -33,13 +33,23 @@
                     <span>Cookie：</span>
                     <input type="text" v-model="setting.cookie" />
                 </div>
+                <SwitchButton
+                    title="进房播报"
+                    v-model="setting.comein"
+                    @change="changeComein"
+                />
+                <SwitchButton
+                    title="关注播报"
+                    v-model="setting.follow"
+                    @change="changeFollow"
+                />
             </div>
             <div class="bottom">
                 <div class="cancel" @click="cancel">取消</div>
                 <div class="save" @click="save">保存</div>
             </div>
         </div>
-        <div v-show="type">
+        <div v-if="type">
             <div class="top">
                 <div class="title">弹幕发送设置</div>
                 <div class="close" @click="cancel">
@@ -86,6 +96,7 @@
 </template>
 
 <script>
+import SwitchButton from "@/components/Switch/index";
 export default {
     name: "Dialog",
     props: ["value", "type"],
@@ -108,6 +119,17 @@ export default {
         cancel() {
             this.$emit("close");
         },
+        changeComein(val) {
+            this.setting.comein = val;
+            console.log(val, "comein");
+        },
+        changeFollow(val) {
+            this.setting.follow = val;
+            console.log(val, "follow");
+        },
+    },
+    components: {
+        SwitchButton,
     },
 };
 </script>

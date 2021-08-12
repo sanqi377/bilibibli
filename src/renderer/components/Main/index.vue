@@ -69,6 +69,18 @@ export default {
                     }
                 });
         },
+        /**
+         * 语音合成
+         * @param {string} text：语音播报内容
+         */
+        stringToTTS(text) {
+            var url =
+                "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=4&text=" +
+                text;
+            var n = new Audio();
+            n.src = url;
+            n.play();
+        },
     },
     watch: {
         /**
@@ -98,11 +110,14 @@ export default {
                     jsonp: "jsonp",
                 })
                 .then((res) => {
+                    if (res.data.data.list.length >= 50) return;
                     this.fens = res.data.data.list;
                     setTimeout(() => {
                         this.fensStatus = false;
                         this.fens = {};
                     }, 1000);
+                    if (!this.$store.state.setting.follow) return;
+                    this.stringToTTS("谢谢" + res.data.data.list[0] + "的关注");
                 });
         },
     },

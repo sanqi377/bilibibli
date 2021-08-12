@@ -50,12 +50,9 @@ axios.interceptors.response.use(function (response) {
 app.get('/user/getInfo', async (req, res) => {
     const { query } = req;
     query.vmid = query.mid
-
     let userInfo = {}
-
     let { card } = await axios.get('https://api.bilibili.com/x/web-interface/card' + param(query))
-
-    // // 用户信息赋值
+     // 用户信息赋值
     userInfo.name = card.name
     userInfo.follower = card.fans
     res.send({ userInfo })

@@ -11,7 +11,12 @@ var setting;
 try {
     setting = JSON.parse(localStorage.getItem("Setting"))
 } catch (err) {
-    setting = {}
+    setting = {
+        user: 403379471,
+        live: 22888172,
+        comein: false,
+        follow: true
+    }
 }
 
 export default new Vuex.Store({
