@@ -14,8 +14,6 @@ It can have a good live effect.It can mainly count fan information,you can also 
 ## Install software
 
 ```shell
-cd software
-
 yarn
 ```
 
