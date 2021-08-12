@@ -106,12 +106,12 @@ app.get("/live/sendBarrage", async (req, res) => {
  */
 app.get("/live/getFollow", async (req, res) => {
     const { query } = req;
-    // request({
-    //     url: "https://api.bilibili.com/x/relation/followers" + param(query),
-    // }, (err, rep, body) => {
-    //     let param = JSON.parse(body);
-    //     res.send({ data: param.data });
-    // });
+    request({
+        url: "https://api.bilibili.com/x/relation/followers" + param(query),
+    }, (err, rep, body) => {
+        let param = JSON.parse(body);
+        res.send({ data: param.data });
+    });
 });
 
 app.listen(3009)

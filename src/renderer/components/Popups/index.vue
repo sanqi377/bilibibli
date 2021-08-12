@@ -9,7 +9,7 @@
                 {{ item.name }}：{{ item.message }}
             </div>
         </div>
-        <div v-if="false" class="follow top">XXX<span> 关注了 </span>主播</div>
+        
     </div>
 </template>
 
@@ -38,12 +38,7 @@ export default {
 </script>
 
 <style scoped>
-@keyframes top {
-    to {
-        opacity: 1;
-        transform: translateY(-25px);
-    }
-}
+
 
 #popups {
     border: 1px dashed #fff;
@@ -63,23 +58,5 @@ export default {
 
 #popups .item:last-child {
     margin-bottom: 0;
-}
-
-.follow {
-    position: absolute;
-    bottom: 0;
-    right: 20px;
-    opacity: 0;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.follow span {
-    color: #ffff00;
-    font-size: 18px;
-}
-
-.top {
-    animation: top 1s;
 }
 </style>

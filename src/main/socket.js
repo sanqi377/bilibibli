@@ -33,7 +33,7 @@ const init = (room_id) => {
   })
 
   setInterval(() => {
-    console.log("发送心跳包")
+    // console.log("发送心跳包")
     ws.send(sendData(heartData, 1, 2, 1))
   }, 5000);
 
@@ -71,11 +71,11 @@ const decode = (data) => {
   const headerLen = dv.getUint16(4)
   const protover = dv.getUint16(6)
   data = data.slice(headerLen, packageLen)
-  console.log(protover)
+  // console.log(protover)
   switch (protover) {
     case 0:
       const message = JSON.parse(uintToString(new Uint8Array(data)))
-      console.log(message.cmd, "弹幕信息解密后")
+      // console.log(message.cmd, "弹幕信息解密后")
       switch (message.cmd) {
         case "DANMU_MSG":
           arrData.push({
@@ -87,15 +87,15 @@ const decode = (data) => {
           break;
         case "INTERACT_WORD":
           stringToTTS("欢迎" + message.data.uname + "光临直播间")
-          console.log("这是进入直播间信息：", message.data.uname)
+          // console.log("这是进入直播间信息：", message.data.uname)
           break
         default:
           break;
       }
       break;
     case 1:
-      console.log("?????不来东西")
-      console.log('气人值为：' + new DataView(data).getUint32(0))
+      // console.log("?????不来东西")
+      // console.log('气人值为：' + new DataView(data).getUint32(0))
       break
     default:
       break;
@@ -116,7 +116,7 @@ const handleData = (data) => {
   const protover = dv.getUint16(6)
   const operation = dv.getUint32(8)
   data = data.slice(headerLen, packageLen)
-  console.log(protover, operation)
+  // console.log(protover, operation)
   switch (protover) {
     case 0:
       // 纯 json 广播信息
@@ -124,8 +124,8 @@ const handleData = (data) => {
       break
     case 1:
       if (operation === 3) {
-        console.log("不来东西！！！！")
-        console.log('人气值为：' + new DataView(data).getUint32(0))
+        // console.log("不来东西！！！！")
+        // console.log('人气值为：' + new DataView(data).getUint32(0))
       } else if (operation === 8) {
         console.log("成功连接房间")
       }

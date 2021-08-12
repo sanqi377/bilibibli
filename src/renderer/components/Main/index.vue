@@ -12,6 +12,11 @@
         </div>
         <LiveInfo />
         <Popups v-model="follower" />
+        <div v-for="item in fens" :key="item.mid">
+            <div class="follow" :class="fensStatus ? 'tops' : ''">
+                感谢 <span>{{ item.uname }}</span> 关注了主播
+            </div>
+        </div>
     </div>
 </template>
 
@@ -28,17 +33,21 @@ export default {
                 follower: {},
             },
             follower: 0, // 粉丝数量
-            difference: 0,
+            difference: 0, // 变化粉丝数量
             status: true,
-            top: false,
+            top: false, // 粉丝变化时动效开关
+            fens: {}, // 新增关注列表
+            fensStatus: false, // 新增粉丝动效
         };
     },
     mounted() {
         this.getInfo();
     },
     methods: {
+        /**
+         * 获取个人信息（up 主名称及粉丝数量）
+         */
         getInfo() {
-            console.log("请求粉丝")
             this.$api.info
                 .getUser({
                     mid: this.$store.state.setting.user,
@@ -62,11 +71,39 @@ export default {
         },
     },
     watch: {
+        /**
+         * 监听粉丝数变化，执行下列方法
+         */
         follower: function () {
+            /**
+             * 关注数发生变化 粉丝数动效开关
+             */
             this.top = true;
             setTimeout(() => {
                 this.top = false;
             }, 1000);
+
+            /**
+             * 关注数发生变化 请求关注列表提取对应粉丝
+             */
+            this.fensStatus = true;
+            console.log("关注变化量：", this.difference);
+            this.$api.live
+                .getFollow({
+                    vmid: this.$store.state.setting.user,
+                    pn: 1,
+                    ps: this.difference,
+                    order: "desc",
+                    order_type: "attention",
+                    jsonp: "jsonp",
+                })
+                .then((res) => {
+                    this.fens = res.data.data.list;
+                    setTimeout(() => {
+                        this.fensStatus = false;
+                        this.fens = {};
+                    }, 1000);
+                });
         },
     },
     components: {
@@ -170,5 +207,30 @@ export default {
     margin-left: 5px;
     font-size: 19px;
     font-weight: bold;
+}
+
+@keyframes tops {
+    to {
+        opacity: 1;
+        transform: translateY(-25px);
+    }
+}
+
+.follow {
+    position: absolute;
+    bottom: 90px;
+    right: 50px;
+    opacity: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.follow span {
+    color: #ffff00;
+    font-size: 18px;
+}
+
+.tops {
+    animation: tops 1s;
 }
 </style>
