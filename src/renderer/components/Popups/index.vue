@@ -14,8 +14,7 @@
 </template>
 
 <script>
-import Socket from "../../../main/socket/Socket";
-let sock = new Socket();
+import webSocket from "../../../main/socket";
 
 export default {
     data() {
@@ -23,25 +22,18 @@ export default {
             list: {},
         };
     },
-    props: ["value"],
     mounted() {
         this.getPopups();
     },
     methods: {
         getPopups() {
-            sock.init(
-                this.$store.state.setting.live
-                    ? this.$store.state.setting.live
-                    : "22888172"
-            );
-            this.list = sock._popup;
-        },
-    },
-    watch: {
-        list: function () {
-            let height = document.getElementById("app").offsetHeight;
-            this.$electron.ipcRenderer.send("window-height", height + 35);
-            console.log("新增弹幕", height + 50);
+            webSocket.init("22888172");
+            // webSocket.init(
+            //     this.$store.state.setting.live
+            //         ? this.$store.state.setting.live
+            //         : "22888172"
+            // );
+            this.list = webSocket.arrData;
         },
     },
 };
@@ -61,6 +53,8 @@ export default {
     padding: 20px 25px;
     color: #fff;
     position: relative;
+    height: 510px;
+    overflow: hidden;
 }
 
 #popups .item {
