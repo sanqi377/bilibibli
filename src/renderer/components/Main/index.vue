@@ -42,7 +42,6 @@ export default {
     },
     mounted() {
         this.getInfo();
-        console.log(this.$store.state.setting)
     },
     methods: {
         /**
@@ -88,7 +87,6 @@ export default {
              * 关注数发生变化 请求关注列表提取对应粉丝
              */
             this.fensStatus = true;
-            console.log("关注变化量：", this.difference);
             this.$api.live
                 .getFollow({
                     vmid: this.$store.state.setting.user,
@@ -99,8 +97,6 @@ export default {
                     jsonp: "jsonp",
                 })
                 .then((res) => {
-                    console.log(res.data.data.list[0].uname)
-                    console.log(this.$store.state.setting.follow)
                     if (res.data.data.list.length >= 50) return;
                     this.fens = res.data.data.list;
                     setTimeout(() => {

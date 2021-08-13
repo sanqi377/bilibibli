@@ -1,9 +1,9 @@
 {
     "name": "bilibili",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "author": "叁柒 sanqi377@outlook.com",
     "description": "一款bilibili直播挂件，可实时显示粉丝及直播信息。",
-    "license": null,
+    "license": "github：https://github.com/sanqi377/bilibibli",
     "main": "./dist/electron/main.js",
     "scripts": {
         "build": "node .electron-vue/build.js && electron-builder",

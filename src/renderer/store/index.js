@@ -19,8 +19,6 @@ try {
     }
 }
 
-console.log(setting)
-
 export default new Vuex.Store({
     state: {
         setting: setting

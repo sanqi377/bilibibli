@@ -1,20 +1,20 @@
 import pako from 'pako'
+import store from '../renderer/store'
 
 /**
  * 存放弹幕数据
  */
 const arrData = []
 
-var comeinStatus = false
+var comeinStatus = store.state.setting.comein
 
 /**
  * 初始化 websocket
  * @param {int} room_id 
  */
 
-const init = (room_id, comein) => {
+const init = (room_id) => {
 
-  comeinStatus = comein
   // websocket 链接地址
   const url = "ws://broadcastlv.chat.bilibili.com:2244/sub"
 
@@ -91,7 +91,11 @@ const decode = (data) => {
           console.log("这是弹幕信息：", message.info[1])
           break;
         case "INTERACT_WORD":
-          if (comeinStatus) stringToTTS("欢迎" + message.data.uname + "光临直播间")
+          arrData.push({
+            name: message.data.uname,
+            type: "INTERACT_WORD"
+          })
+          if (comeinStatus) stringToTTS("欢迎" + message.data.uname + "进入直播间")
           // console.log("这是进入直播间信息：", message.data.uname)
           break
         default:

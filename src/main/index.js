@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import '../renderer/store'
 
 // 引入 express 服务端
-import './express'
+import '../plugins/express'
 
 // 窗口置顶
 ipcMain.on('window-top', () => {

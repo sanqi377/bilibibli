@@ -29,14 +29,12 @@ export default {
     mounted() {
         setTimeout(() => {
             this.status = this.value;
-            console.log(this.status);
         }, 1000);
     },
     methods: {
         changeSwitch() {
             this.status = !this.status;
             this.$emit("change", this.status);
-            console.log(this.status);
         },
     },
 };

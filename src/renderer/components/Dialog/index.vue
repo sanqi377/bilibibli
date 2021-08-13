@@ -121,11 +121,9 @@ export default {
         },
         changeComein(val) {
             this.setting.comein = val;
-            console.log(val, "comein");
         },
         changeFollow(val) {
             this.setting.follow = val;
-            console.log(val, "follow");
         },
     },
     components: {
