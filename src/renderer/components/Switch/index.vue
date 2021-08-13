@@ -37,6 +37,11 @@ export default {
             this.$emit("change", this.status);
         },
     },
+    watch: {
+        value: function () {
+            this.status = this.value;
+        },
+    },
 };
 </script>
 

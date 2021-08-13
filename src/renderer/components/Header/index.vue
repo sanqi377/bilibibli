@@ -67,7 +67,7 @@
                 </svg>
             </div>
         </div>
-        <Dialog v-model="cancel" @close="close" />
+        <Dialog v-model="cancel"  @close="close" />
     </div>
 </template>
 
@@ -84,6 +84,9 @@ export default {
             closeIs: false,
             cancel: false,
         };
+    },
+    mounted() {
+        this.set = this.$store.state.setting;
     },
     methods: {
         sticky() {
@@ -135,7 +138,6 @@ export default {
         },
         setting() {
             this.cancel = true;
-            console.log(this.cancel);
         },
         close() {
             this.cancel = false;

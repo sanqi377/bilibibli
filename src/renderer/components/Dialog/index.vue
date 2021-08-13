@@ -23,24 +23,24 @@
             <div class="content">
                 <div class="input">
                     <span>用户 Id：</span>
-                    <input type="text" v-model="setting.user" />
+                    <input type="text" v-model="settings.user" />
                 </div>
                 <div class="input">
                     <span>直播 Id：</span>
-                    <input type="text" v-model="setting.live" />
+                    <input type="text" v-model="settings.live" />
                 </div>
                 <div class="input">
                     <span>Cookie：</span>
-                    <input type="text" v-model="setting.cookie" />
+                    <input type="text" v-model="settings.cookie" />
                 </div>
                 <SwitchButton
                     title="进房播报"
-                    v-model="setting.comein"
+                    v-model="settings.comein"
                     @change="changeComein"
                 />
                 <SwitchButton
                     title="关注播报"
-                    v-model="setting.follow"
+                    v-model="settings.follow"
                     @change="changeFollow"
                 />
             </div>
@@ -72,19 +72,19 @@
             <div class="content">
                 <div class="input">
                     <span>csrf：</span>
-                    <input type="text" v-model="setting.csrf" />
+                    <input type="text" v-model="settings.csrf" />
                 </div>
                 <div class="input">
                     <span>color：</span>
-                    <input type="text" v-model="setting.color" />
+                    <input type="text" v-model="settings.color" />
                 </div>
                 <div class="input">
                     <span>fontsize：</span>
-                    <input type="text" v-model="setting.fontsize" />
+                    <input type="text" v-model="settings.fontsize" />
                 </div>
                 <div class="input">
                     <span>rnd：</span>
-                    <input type="text" v-model="setting.rnd" />
+                    <input type="text" v-model="settings.rnd" />
                 </div>
             </div>
             <div class="bottom">
@@ -102,28 +102,28 @@ export default {
     props: ["value", "type"],
     data() {
         return {
-            setting: {},
+            settings: {},
         };
     },
     mounted() {
         if (JSON.parse(localStorage.getItem("Setting"))) {
-            this.setting = JSON.parse(localStorage.getItem("Setting"));
+            this.settings = JSON.parse(localStorage.getItem("Setting"));
         }
     },
     methods: {
         save() {
-            var data = this.setting;
-            this.$store.commit("setSetting", data);
+            this.$store.commit("setSetting", this.settings);
             this.$emit("close");
         },
         cancel() {
+            this.settings = JSON.parse(localStorage.getItem("Setting"));
             this.$emit("close");
         },
         changeComein(val) {
-            this.setting.comein = val;
+            this.settings.comein = val;
         },
         changeFollow(val) {
-            this.setting.follow = val;
+            this.settings.follow = val;
         },
     },
     components: {
