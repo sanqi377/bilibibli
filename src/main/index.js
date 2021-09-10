@@ -4,112 +4,168 @@ import '../renderer/store'
 // 引入 express 服务端
 import '../plugins/express'
 
-// 窗口置顶
-ipcMain.on('window-top', () => {
-    if (mainWindow.isAlwaysOnTop()) {
-        mainWindow.setAlwaysOnTop(false);
-        BrowserWindow.getFocusedWindow().webContents.send('alwaysOnTop', 'no');
-    } else {
-        mainWindow.setAlwaysOnTop(true);
-        BrowserWindow.getFocusedWindow().webContents.send('alwaysOnTop', 'yes');
-    }
-});
-
-
-// 窗口穿透
-ipcMain.on('set-ignore-mouse-events', (event, ...args) => {
-    BrowserWindow.fromWebContents(event.sender).setIgnoreMouseEvents(...args)
-})
-
-// 窗口锁定
-ipcMain.on('window-lock', () => {
-    if (mainWindow.isMovable()) {
-        mainWindow.setMovable(false)
-    } else {
-        mainWindow.setMovable(true)
-    }
-});
-
-// 窗口高度
-ipcMain.on('window-height', (event, height) => {
-    mainWindow.setSize(500, height);
-});
-
-// 窗口关闭
-ipcMain.on('window-close', () => {
-    mainWindow.close();
-});
-
-/**
- * Set `__static` path to static files in production
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
- */
 if (process.env.NODE_ENV !== 'development') {
     global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow
 const winURL = process.env.NODE_ENV === 'development' ?
     `http://localhost:9080` :
     `file://${__dirname}/index.html`
 
 
-function createWindow() {
-    /**
-     * Initial window options
-     */
-    mainWindow = new BrowserWindow({
+/**
+ * 定义所有窗口
+ */
+let allWindow = [
+    {
+        path: 'index',
+        name: 'index',
+        width: 300,
+        height: 500,
         frame: false,
         transparent: true,
-        // height: 820,
-        height: 911,
-        useContentSize: true,
-        resizable: false,
-        webPreferences: { webSecurity: false },
-        // width: 1650
-        width: 440
-    })
-
-    // 双击不可放大缩小
-    mainWindow.setMaximizable(false)
-
-    mainWindow.loadURL(winURL)
-
-    mainWindow.on('closed', () => {
-        mainWindow = null
-    })
-}
-
-app.on('ready', createWindow)
-
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit()
+        parent: true
+    },
+    {
+        path: 'barrage',
+        name: 'barrage',
+        width: 300,
+        height: 412,
+        frame: false,
+        transparent: true,
+    },
+    {
+        path: 'focus',
+        name: 'focus',
+        width: 300,
+        height: 412,
+        frame: false,
+        transparent: true,
+    },
+    {
+        path: 'welcome',
+        name: 'welcome',
+        width: 1300,
+        height: 500,
+        frame: false,
+        transparent: true,
+    },
+    {
+        path: 'music',
+        name: 'music',
+        width: 330,
+        // width: 1400,
+        height: 500,
+        frame: false,
+        transparent: true,
     }
-})
+]
 
-app.on('activate', () => {
-    if (mainWindow === null) {
-        createWindow()
+/**
+ * 初始化所有窗口
+ */
+allWindow.forEach(item => {
+    item.name = () => {
+        item.name = new BrowserWindow({
+            width: item.width,
+            height: item.height,
+            parent: item.parent ? '' : item.path,
+            frame: item.frame,
+            transparent: item.transparent
+        })
+        item.name.loadURL(winURL + '/#/' + item.path);
+        item.name.setMaximizable(false)
     }
 })
 
 /**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
+ * 实例化窗口
  */
+let slhWin = (data) => {
+    data.name = () => {
+        data.name = new BrowserWindow({
+            width: data.width,
+            height: data.height,
+            parent: data.parent ? '' : data.path,
+            frame: data.frame,
+            transparent: data.transparent
+        })
+        data.name.loadURL(winURL + '/#/' + data.path);
+        data.name.setMaximizable(false)
+    }
+    data.name()
+}
 
-/*
-import { autoUpdater } from 'electron-updater'
 
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
+/**
+ * 打开窗口
+ */
+ipcMain.on('openWindows', (e, path) => {
+    allWindow.forEach(item => {
+        if (item.path == path) {
+            if (typeof (item.name) != 'function') {
+                slhWin(item)
+            } else {
+                item.name()
+            }
+        }
+    })
+});
+
+/**
+ * 最小化窗口
+ */
+ipcMain.on('window-mini', () => {
+    allWindow[0].name.minimize();
 })
 
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
+/**
+ * 关闭窗口
  */
+ipcMain.on('window-close', (e, path) => {
+    if (path == 'index') {
+        if (process.platform !== 'darwin') {
+            app.quit()
+        }
+    } else {
+        allWindow.forEach(item => {
+            if (item.path == path) {
+                item.name.close()
+            }
+        })
+    }
+
+});
+
+
+/**
+ * 窗口锁定
+ */
+ipcMain.on('window-lock', (e, path) => {
+    allWindow.forEach(item => {
+        if (item.path == path) {
+            if (item.name.isMovable()) {
+                item.name.setMovable(false)
+            } else {
+                item.name.setMovable(true)
+            }
+        }
+    })
+});
+
+
+
+// 窗口置顶
+ipcMain.on('window-top', (e, path) => {
+    allWindow.forEach(item => {
+        if (item.path == path) {
+            if (item.name.isAlwaysOnTop()) {
+                item.name.setAlwaysOnTop(false);
+            } else {
+                item.name.setAlwaysOnTop(true);
+            }
+        }
+    })
+});
+
+app.on('ready', allWindow[0].name)

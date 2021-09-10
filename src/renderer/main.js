@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 
 import "./assets/font/font.css";
+import "./assets/font/font-CN.css";
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.prototype.$api = api

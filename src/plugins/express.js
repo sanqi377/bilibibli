@@ -4,6 +4,16 @@ const axios = require('axios')
 
 const request = require("request");
 
+app.all("*", function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Methods", "DELETE,PUT,POST,GET,OPTIONS");
+    if (req.method.toLowerCase() == 'options')
+        res.sendStatus(200);
+    else
+        next();
+});
+
 import store from '../renderer/store'
 
 /**
@@ -42,6 +52,35 @@ axios.interceptors.response.use(function (response) {
 });
 
 /**
+ * 获取网易云音乐信息
+ */
+app.get('/music/getSearch', async (req, res) => {
+    const { query } = req;
+    let name = encodeURI(query.s)
+    request({
+        url: `http://music.163.com/api/search/get/web?&type=1&offset=0&total=true&limit=1&s=${name}`,
+    }, (err, rep, body) => {
+        let param = JSON.parse(body);
+        if (param.result.songs[0].fee == 1) {
+            res.send({ code: 201, msg: '无法播放该歌曲' });
+        } else {
+            request({
+                url: `http://music.163.com/api/song/detail/?id=${param.result.songs[0].id}&ids=[${param.result.songs[0].id}]`,
+            }, (err1, rep1, body1) => {
+                let param1 = JSON.parse(body1);
+                let data = {
+                    url: 'http://music.163.com/song/media/outer/url?id=' + param.result.songs[0].id,
+                    name: param1.songs[0].name,
+                    author: param.result.songs[0].artists[0].name,
+                    pic: param1.songs[0].album.blurPicUrl
+                }
+                res.send({ data });
+            });
+        }
+    });
+});
+
+/**
  * 用户信息接口
  * url: /user/getInfo
  * param: 用户 Mid
@@ -52,7 +91,7 @@ app.get('/user/getInfo', async (req, res) => {
     query.vmid = query.mid
     let userInfo = {}
     let { card } = await axios.get('https://api.bilibili.com/x/web-interface/card' + param(query))
-     // 用户信息赋值
+    // 用户信息赋值
     userInfo.name = card.name
     userInfo.follower = card.fans
     res.send({ userInfo })
@@ -91,23 +130,7 @@ app.get("/live/sendBarrage", async (req, res) => {
         }
     }, (err, rep, body) => {
         let param = JSON.parse(body);
-        console.log(param)
         res.send({ data: param });
-    });
-});
-
-/**
- * 最新关注接口
- * url: /live/sendBarrage
- * param: roomid、msg、csrf、rnd、fontsize、color、cookie
- */
-app.get("/live/getFollow", async (req, res) => {
-    const { query } = req;
-    request({
-        url: "https://api.bilibili.com/x/relation/followers" + param(query),
-    }, (err, rep, body) => {
-        let param = JSON.parse(body);
-        res.send({ data: param.data });
     });
 });
 

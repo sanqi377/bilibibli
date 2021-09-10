@@ -4,9 +4,7 @@ import store from '../renderer/store'
 /**
  * 存放弹幕数据
  */
-const arrData = []
-
-var comeinStatus = store.state.setting.comein
+let arrData = [], welcome = [], focus = [], music = []
 
 /**
  * 初始化 websocket
@@ -76,27 +74,46 @@ const decode = (data) => {
   const headerLen = dv.getUint16(4)
   const protover = dv.getUint16(6)
   data = data.slice(headerLen, packageLen)
-  // console.log(protover)
   switch (protover) {
     case 0:
       const message = JSON.parse(uintToString(new Uint8Array(data)))
-      // console.log(message.cmd, "弹幕信息解密后")
       switch (message.cmd) {
         case "DANMU_MSG":
+          let index = message.info[1].lastIndexOf("点歌 ")
+          if (index === 0) {
+            let gm = message.info[1].substring(index + 3, message.info[1].length);
+            music.push({
+              user: message.info[2][1],
+              name: gm,
+              type: "DIANGE"
+            })
+          }
           arrData.push({
             name: message.info[2][1],
             message: message.info[1],
             type: "DANMU_MSG"
           })
-          console.log("这是弹幕信息：", message.info[1])
           break;
         case "INTERACT_WORD":
-          arrData.push({
-            name: message.data.uname,
-            type: "INTERACT_WORD"
-          })
-          if (comeinStatus) stringToTTS("欢迎" + message.data.uname + "进入直播间")
-          // console.log("这是进入直播间信息：", message.data.uname)
+          console.log(message)
+          // 进入房间信息
+          if (message.data.msg_type === 1) {
+            welcome.push({
+              name: message.data.uname,
+              type: "INTERACT_WORD"
+            })
+          }
+          // 关注主播信息
+          if (message.data.msg_type === 2) {
+            focus.push({
+              name: message.data.uname,
+              type: "FOCUS"
+            })
+          }
+          break
+        // 捕获礼物信息
+        case "SEND_GIFT":
+          console.log(message)
           break
         default:
           break;
@@ -110,9 +127,9 @@ const decode = (data) => {
       break;
   }
 
-  if (arrData.length > 15)
-    arrData.splice(0, arrData.length - 15);
-
+  if (arrData.length > 10) arrData.splice(0, arrData.length - 10);
+  if (welcome.length > 5) welcome.splice(0, welcome.length - 5);
+  if (focus.length > 5) focus.splice(0, focus.length - 5);
 }
 
 /**
@@ -196,18 +213,32 @@ const uintToString = (uintArray) => {
   )
 }
 
+// /**
+//  * 语音合成
+//  * @param {string} text 
+//  */
+// const stringToTTS = (text) => {
+//   var url = "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=4&text=" + text;
+//   var n = new Audio()
+//   n.src = url
+//   n.play();
+// }
+
 /**
- * 语音合成
- * @param {string} text 
+ * 删除播放完毕或者跳过的歌曲
+ *
+ * @param {*} name
  */
-const stringToTTS = (text) => {
-  var url = "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=4&text=" + text;
-  var n = new Audio()
-  n.src = url
-  n.play();
+const deleteMusic = (name) => {
+  music.forEach((item, idx) => {
+    if (item.name == name) music.splice(idx, 1)
+  })
 }
 
 export default {
   init,
-  arrData
+  arrData,
+  welcome,
+  music,
+  deleteMusic
 }

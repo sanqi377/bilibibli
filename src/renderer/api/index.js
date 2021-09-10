@@ -36,6 +36,12 @@ const api = {
             const data = paramToString(param)
             return ajax.get("/live/sendBarrage" + data);
         }
+    },
+    music: {
+        getSearch: (param) => {
+            const data = paramToString(param)
+            return ajax.get("/music/getSearch" + data);
+        }
     }
 }
 
